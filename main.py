@@ -30,7 +30,7 @@ def draw_screen(game):
                 pygame.draw.rect(screen, colors[game.field[i][j]],
                             [game.x + game.zoom * j + 1, game.y + game.zoom * i + 1, game.zoom - 2, game.zoom - 1])
 
-def draw_gameover(game):
+def draw_gameover():
     font = pygame.font.SysFont('Calibri', 65, True, False)
     text_game_over = font.render("Game Over", True, BLACK)
     text_game_over1 = font.render("Press ESC", True, BLACK)
@@ -41,12 +41,14 @@ def draw_gameover(game):
 def draw_score(game):
     font = pygame.font.SysFont('Calibri', 25, True, False)
     text = font.render("Score: " + str(game.score), True, BLACK)
-    screen.blit(text, [0, 0])
+    screen.blit(text, [2, 2])
 
-def draw_title(game):
-    font = pygame.font.SysFont('Calibri', 25, True, False)
-    font1 = pygame.font.SysFont('Calibri', 65, True, False)
-    pass
+def draw_title():
+    font = pygame.font.SysFont('Calibri', 40, True, False)
+    text_TETRIS = font.render("TETRIS", True, BLACK)
+
+    screen.blit(text_TETRIS, [137, 20])
+
 
 def on_keypress(game, pressing_down, done):
     for event in pygame.event.get():
@@ -90,7 +92,7 @@ if __name__ == "__main__":
     (0, 255, 0),
     (0, 0, 255),
     (255, 128, 0),
-    (255, 128, 0),
+    (128, 0, 128),
     (255, 255, 0)] 
 
     size = (400, 500)
@@ -104,9 +106,10 @@ if __name__ == "__main__":
     fps = 25
     game = Tetris(20, 10)
     counter = 5000
-
     pressing_down = False
+
     while not done:
+        draw_title
         if game.figure is None:
             game.new_figure()
         counter += 1
@@ -118,16 +121,14 @@ if __name__ == "__main__":
                 game.go_down()
 
         pressing_down, done = on_keypress(game, pressing_down, done)
-
         #draws screen and box
-        draw_screen(game)
-
+        draw_screen(game)  
         #draws figures
         draw_figure(game)
         draw_score(game)
         if game.state == "gameover":
-            draw_gameover(game)
-
+            draw_gameover()
+        draw_title()  
         pygame.display.flip()
         clock.tick(fps)
 
