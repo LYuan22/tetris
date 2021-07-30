@@ -8,6 +8,8 @@ from tetris import Tetris
 #save block with shift
 #move things to functions
 
+#press any key to start
+
 def draw_figure(game):
     if game.figure is not None:
         for i in range(4):
@@ -29,20 +31,24 @@ def draw_screen(game):
                             [game.x + game.zoom * j + 1, game.y + game.zoom * i + 1, game.zoom - 2, game.zoom - 1])
 
 def draw_gameover(game):
+    font = pygame.font.SysFont('Calibri', 65, True, False)
+    text_game_over = font.render("Game Over", True, BLACK)
+    text_game_over1 = font.render("Press ESC", True, BLACK)
+    
+    screen.blit(text_game_over, [20, 200])
+    screen.blit(text_game_over1, [25, 265])
+
+def draw_score(game):
+    font = pygame.font.SysFont('Calibri', 25, True, False)
+    text = font.render("Score: " + str(game.score), True, BLACK)
+    screen.blit(text, [0, 0])
+
+def draw_title(game):
     font = pygame.font.SysFont('Calibri', 25, True, False)
     font1 = pygame.font.SysFont('Calibri', 65, True, False)
-    text = font.render("Score: " + str(game.score), True, BLACK)
-    text_game_over = font1.render("Game Over", True, BLACK)
-    text_game_over1 = font1.render("Press ESC", True, BLACK)
-    
-    screen.blit(text, [0, 0])
-    if game.state == "gameover":
-        screen.blit(text_game_over, [20, 200])
-        screen.blit(text_game_over1, [25, 265])
+    pass
 
 def on_keypress(game, pressing_down, done):
-    print(done)
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
@@ -56,7 +62,8 @@ def on_keypress(game, pressing_down, done):
             if event.key == pygame.K_RIGHT:
                 game.go_side(1)
             if event.key == pygame.K_SPACE:
-                game.go_space()
+                if game.state == "start":
+                    game.go_space()
             if event.key == pygame.K_ESCAPE:
                 if game.state == "gameover":
                     game.__init__(20, 10)
@@ -78,12 +85,13 @@ if __name__ == "__main__":
 
     colors = [
     (0, 0, 0),
-    (120, 37, 179),
-    (100, 179, 179),
-    (80, 34, 22),
-    (80, 134, 22),
-    (180, 34, 22),
-    (180, 34, 122),]
+    (0, 255, 255),
+    (255, 0, 0),
+    (0, 255, 0),
+    (0, 0, 255),
+    (255, 128, 0),
+    (255, 128, 0),
+    (255, 255, 0)] 
 
     size = (400, 500)
     screen = pygame.display.set_mode(size)
@@ -98,7 +106,6 @@ if __name__ == "__main__":
     counter = 5000
 
     pressing_down = False
-
     while not done:
         if game.figure is None:
             game.new_figure()
@@ -114,10 +121,12 @@ if __name__ == "__main__":
 
         #draws screen and box
         draw_screen(game)
+
         #draws figures
         draw_figure(game)
-
-        draw_gameover(game)
+        draw_score(game)
+        if game.state == "gameover":
+            draw_gameover(game)
 
         pygame.display.flip()
         clock.tick(fps)
