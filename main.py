@@ -6,6 +6,8 @@ from tetris import Tetris
 #keypress
 #next blocks
 #save block with shift
+#move things to functions
+
 def draw_figure(game):
     if game.figure is not None:
         for i in range(4):
@@ -31,12 +33,39 @@ def draw_gameover(game):
     font1 = pygame.font.SysFont('Calibri', 65, True, False)
     text = font.render("Score: " + str(game.score), True, BLACK)
     text_game_over = font1.render("Game Over", True, BLACK)
-    text_game_over1 = font1.render("Press ESC", True, (255, 215, 0))
+    text_game_over1 = font1.render("Press ESC", True, BLACK)
     
     screen.blit(text, [0, 0])
     if game.state == "gameover":
         screen.blit(text_game_over, [20, 200])
         screen.blit(text_game_over1, [25, 265])
+
+def on_keypress(game, pressing_down, done):
+    print(done)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                game.rotate()
+            if event.key == pygame.K_DOWN:
+                pressing_down = True
+            if event.key == pygame.K_LEFT:
+                game.go_side(-1)
+            if event.key == pygame.K_RIGHT:
+                game.go_side(1)
+            if event.key == pygame.K_SPACE:
+                game.go_space()
+            if event.key == pygame.K_ESCAPE:
+                if game.state == "gameover":
+                    game.__init__(20, 10)
+
+        if event.type == pygame.KEYUP:
+                if event.key == pygame.K_DOWN:
+                    pressing_down = False
+    return pressing_down, done
+
 
 if __name__ == "__main__":
     # Initialize the game engine
@@ -77,32 +106,11 @@ if __name__ == "__main__":
         if counter > 100000:
             counter = 0
 
-        if counter % (fps // game.level // 2) == 0 or pressing_down:
+        if counter % ((fps // game.level) // 2) == 0 or pressing_down:
             if game.state == "start":
                 game.go_down()
 
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                done = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    game.rotate()
-                if event.key == pygame.K_DOWN:
-                    pressing_down = True
-                if event.key == pygame.K_LEFT:
-                    game.go_side(-1)
-                if event.key == pygame.K_RIGHT:
-                    game.go_side(1)
-                if event.key == pygame.K_SPACE:
-                    game.go_space()
-                if event.key == pygame.K_ESCAPE:
-                    if game.state == "gameover":
-                        game.__init__(20, 10)
-
-        if event.type == pygame.KEYUP:
-                if event.key == pygame.K_DOWN:
-                    pressing_down = False
+        pressing_down, done = on_keypress(game, pressing_down, done)
 
         #draws screen and box
         draw_screen(game)
