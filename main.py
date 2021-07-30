@@ -1,10 +1,12 @@
 import pygame
 from tetris import Tetris
 from draw import draw_figure, draw_screen, draw_gameover, draw_score, draw_title, draw_any_key, on_keypress
+import sqlite3
 
 #next blocks
 #save block with shift
 
+            
 
 if __name__ == "__main__":
 
@@ -50,6 +52,6 @@ if __name__ == "__main__":
         if game.state == "gameover":
             draw_gameover(screen)
         pygame.display.flip()
-        game.level = (game.score % 5) + 3
+        game.level = (game.score // 5) + 3
         clock.tick(25)
     pygame.quit()
