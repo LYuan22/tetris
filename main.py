@@ -3,12 +3,10 @@ from tetris import Tetris
 
 
 #make speed start slower, speed up as time/score increases
-#keypress
+#key hold
 #next blocks
 #save block with shift
-#move things to functions
 
-#press any key to start
 
 def draw_figure(game):
     if game.figure is not None:
@@ -49,12 +47,22 @@ def draw_title():
 
     screen.blit(text_TETRIS, [137, 20])
 
+def draw_any_key():
+    font = pygame.font.SysFont('Calibri', 40, True, False)
+    text_anykey = font.render("Press any Key", True, BLACK)
+    text_tostart = font.render("to Start", True, BLACK)
+
+    screen.blit(text_anykey, [20, 200])
+    screen.blit(text_tostart, [25, 265])
 
 def on_keypress(game, pressing_down, done):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
         if event.type == pygame.KEYDOWN:
+            if game.state == "false":
+                game.state = "start"
+                return pressing_down, done
             if event.key == pygame.K_UP:
                 game.rotate()
             if event.key == pygame.K_DOWN:
@@ -69,7 +77,6 @@ def on_keypress(game, pressing_down, done):
             if event.key == pygame.K_ESCAPE:
                 if game.state == "gameover":
                     game.__init__(20, 10)
-
         if event.type == pygame.KEYUP:
                 if event.key == pygame.K_DOWN:
                     pressing_down = False
@@ -105,31 +112,36 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
     fps = 25
     game = Tetris(20, 10)
-    counter = 5000
+    counter = 0
     pressing_down = False
 
     while not done:
-        draw_title
-        if game.figure is None:
-            game.new_figure()
-        counter += 1
-        if counter > 100000:
-            counter = 0
-
-        if counter % ((fps // game.level) // 2) == 0 or pressing_down:
-            if game.state == "start":
-                game.go_down()
+        draw_title()
+        
+        draw_screen(game)
+        
+        if game.state == "false":
+            draw_any_key()
 
         pressing_down, done = on_keypress(game, pressing_down, done)
-        #draws screen and box
-        draw_screen(game)  
-        #draws figures
-        draw_figure(game)
-        draw_score(game)
+
+        if game.state == "start":
+
+            if game.figure is None:
+                game.new_figure()
+
+            counter += 1
+            if counter > 100000:
+                counter = 0
+            
+            if counter % ((fps // game.level) // 2) == 0 or pressing_down:
+                game.go_down()
+
+            draw_figure(game)
+            draw_score(game)
+            draw_title()  
         if game.state == "gameover":
             draw_gameover()
-        draw_title()  
         pygame.display.flip()
         clock.tick(fps)
-
     pygame.quit()
