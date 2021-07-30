@@ -3,7 +3,7 @@ from figure import Figure
 class Tetris:
     level = 2
     score = 0
-    state = "start"
+    state = "false"
     field = []
     height = 0
     width = 0
@@ -19,7 +19,7 @@ class Tetris:
         self.width = width
         self.field = []
         self.score = 0
-        self.state = "start"
+        self.state = "false"
         self.level = 2
         for i in range(height):
             new_line = []
