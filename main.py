@@ -6,7 +6,16 @@ from tetris import Tetris
 #keypress
 #next blocks
 #save block with shift
-
+def draw_figure(game):
+    if game.figure is not None:
+            for i in range(4):
+                for j in range(4):
+                    p = i * 4 + j
+                    if p in game.figure.image():
+                        pygame.draw.rect(screen, colors[game.figure.color],
+                                        [game.x + game.zoom * (j + game.figure.x) + 1,
+                                        game.y + game.zoom * (i + game.figure.y) + 1,
+                                        game.zoom - 2, game.zoom - 2])
 if __name__ == "__main__":
     # Initialize the game engine
     pygame.init()
@@ -33,9 +42,9 @@ if __name__ == "__main__":
     # Loop until the user clicks the close button.
     done = False
     clock = pygame.time.Clock()
-    fps = 
+    fps = 25
     game = Tetris(20, 10)
-    counter = 0
+    counter = 5000
 
     pressing_down = False
 
@@ -83,15 +92,7 @@ if __name__ == "__main__":
                     pygame.draw.rect(screen, colors[game.field[i][j]],
                                     [game.x + game.zoom * j + 1, game.y + game.zoom * i + 1, game.zoom - 2, game.zoom - 1])
         #draws figures
-        if game.figure is not None:
-            for i in range(4):
-                for j in range(4):
-                    p = i * 4 + j
-                    if p in game.figure.image():
-                        pygame.draw.rect(screen, colors[game.figure.color],
-                                        [game.x + game.zoom * (j + game.figure.x) + 1,
-                                        game.y + game.zoom * (i + game.figure.y) + 1,
-                                        game.zoom - 2, game.zoom - 2])
+        draw_figure(game)
 
         font = pygame.font.SysFont('Calibri', 25, True, False)
         font1 = pygame.font.SysFont('Calibri', 65, True, False)
