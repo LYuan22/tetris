@@ -20,6 +20,7 @@ class Tetris:
         self.field = []
         self.score = 0
         self.state = "start"
+        self.level = 2
         for i in range(height):
             new_line = []
             for j in range(width):
