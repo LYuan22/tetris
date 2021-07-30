@@ -7,23 +7,22 @@ from draw import draw_figure, draw_screen, draw_gameover, draw_score, draw_title
 
 
 if __name__ == "__main__":
-    # Initialize the game engine
+
     pygame.init()
 
-    # Define some colors
+
     size = (400, 500)
     screen = pygame.display.set_mode(size)
 
     pygame.display.set_caption("Tetris")
 
-    # Loop until the user clicks the close button.
     done = False
     clock = pygame.time.Clock()
-    fps = 25
     game = Tetris(20, 10)
     counter = 0
     pressing_down = False
 
+    # Loop until the user closes out
     while not done:
         draw_title(screen)
         
@@ -52,5 +51,5 @@ if __name__ == "__main__":
             draw_gameover(screen)
         pygame.display.flip()
         game.level = (game.score % 5) + 3
-        clock.tick(fps)
+        clock.tick(25)
     pygame.quit()
