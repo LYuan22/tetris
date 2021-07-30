@@ -40,8 +40,8 @@ def draw_gameover(screen):
     text_game_over = font.render("Game Over", True, BLACK)
     text_game_over1 = font.render("Press ESC", True, BLACK)
     
-    screen.blit(text_game_over, [20, 200])
-    screen.blit(text_game_over1, [25, 265])
+    screen.blit(text_game_over, [20, 10])
+    screen.blit(text_game_over1, [25, 75])
 
 def draw_score(game, screen):
     font = pygame.font.SysFont('Calibri', 25, True, False)
