@@ -8,14 +8,26 @@ from tetris import Tetris
 #save block with shift
 def draw_figure(game):
     if game.figure is not None:
-            for i in range(4):
-                for j in range(4):
-                    p = i * 4 + j
-                    if p in game.figure.image():
-                        pygame.draw.rect(screen, colors[game.figure.color],
-                                        [game.x + game.zoom * (j + game.figure.x) + 1,
-                                        game.y + game.zoom * (i + game.figure.y) + 1,
-                                        game.zoom - 2, game.zoom - 2])
+        for i in range(4):
+            for j in range(4):
+                p = i * 4 + j
+                if p in game.figure.image():
+                    pygame.draw.rect(screen, colors[game.figure.color],
+                                   [game.x + game.zoom * (j + game.figure.x) + 1,
+                                    game.y + game.zoom * (i + game.figure.y) + 1,
+                                    game.zoom - 2, game.zoom - 2])
+
+def draw_screen(game):
+    screen.fill(WHITE)
+    for i in range(game.height):
+        for j in range(game.width):
+            pygame.draw.rect(screen, GRAY, [game.x + game.zoom * j, game.y + game.zoom * i, game.zoom, game.zoom], 1)
+            if game.field[i][j] > 0:
+                pygame.draw.rect(screen, colors[game.field[i][j]],
+                            [game.x + game.zoom * j + 1, game.y + game.zoom * i + 1, game.zoom - 2, game.zoom - 1])
+
+
+
 if __name__ == "__main__":
     # Initialize the game engine
     pygame.init()
@@ -83,14 +95,7 @@ if __name__ == "__main__":
                     pressing_down = False
 
         #draws screen and box
-        screen.fill(WHITE)
-
-        for i in range(game.height):
-            for j in range(game.width):
-                pygame.draw.rect(screen, GRAY, [game.x + game.zoom * j, game.y + game.zoom * i, game.zoom, game.zoom], 1)
-                if game.field[i][j] > 0:
-                    pygame.draw.rect(screen, colors[game.field[i][j]],
-                                    [game.x + game.zoom * j + 1, game.y + game.zoom * i + 1, game.zoom - 2, game.zoom - 1])
+        draw_screen(game)
         #draws figures
         draw_figure(game)
 
