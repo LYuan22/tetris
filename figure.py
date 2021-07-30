@@ -1,5 +1,6 @@
 import random
 
+
 class Figure:
     x = 0
     y = 0
@@ -18,7 +19,7 @@ class Figure:
         self.x = x
         self.y = y
         self.type = random.randint(0, len(self.figures) - 1)
-        self.color = random.randint(1, len(colors) - 1)
+        self.color = self.type + 1
         self.rotation = 0
 
     def image(self):
