@@ -11,6 +11,8 @@ class Tetris:
     y = 60
     zoom = 20
     figure = None
+    nextfigure = None
+
 
     def __init__(self, height, width):
         self.height = height
@@ -25,7 +27,8 @@ class Tetris:
             self.field.append(new_line)
 
     def new_figure(self):
-        self.figure = Figure(3, 0)
+        self.figure = self.nextfigure
+        self.nextfigure = Figure(3, 0)
 
     def intersects(self):
         intersection = False
