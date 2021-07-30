@@ -1,7 +1,6 @@
 import pygame
 from tetris import Tetris
 from draw import draw_figure, draw_screen, draw_gameover, draw_score, draw_title, draw_any_key, on_keypress
-import sqlite3
 
 #next blocks
 #save block with shift
