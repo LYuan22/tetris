@@ -2,7 +2,6 @@ import pygame
 from tetris import Tetris
 from draw import draw_figure, draw_screen, draw_gameover, draw_score, draw_title, draw_any_key, on_keypress
 
-#make speed start slower, speed up as time/score increases
 #next blocks
 #save block with shift
 
@@ -43,8 +42,7 @@ if __name__ == "__main__":
             counter += 1
             if counter > 100000:
                 counter = 0
-            
-            if counter % ((fps // game.level) // 2) == 0 or pressing_down:
+            if counter % ((40 // game.level)  // 2) == 0 or pressing_down:
                 game.go_down()
 
             draw_figure(game, screen)
@@ -53,5 +51,6 @@ if __name__ == "__main__":
         if game.state == "gameover":
             draw_gameover(screen)
         pygame.display.flip()
+        game.level = (game.score % 5) + 3
         clock.tick(fps)
     pygame.quit()

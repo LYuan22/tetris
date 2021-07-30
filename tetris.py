@@ -1,7 +1,7 @@
 from figure import Figure
 
 class Tetris:
-    level = 2
+    level = 6
     score = 0
     state = "false"
     field = []
@@ -20,7 +20,7 @@ class Tetris:
         self.field = []
         self.score = 0
         self.state = "false"
-        self.level = 2
+        self.level = 6
         for i in range(height):
             new_line = []
             for j in range(width):
